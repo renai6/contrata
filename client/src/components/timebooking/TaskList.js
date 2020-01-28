@@ -17,14 +17,14 @@ const TaskList = ({localDispatch}) => {
       const fetchTasks = async () => {
 
          try {
-           
+           console.log('wew')
             const {data} = await axios.get('/api/tasks')
 
             const _tasks = data.reduce(( arr, project ) => {
 
                project.tasks.forEach(task => {
                   
-                  task.PROJECT_NR = project.PROJECT_NR
+                  task.proj_nr = project.proj_nr
                })
 
                arr.push(...project.tasks)
@@ -32,7 +32,7 @@ const TaskList = ({localDispatch}) => {
                return arr
             }, []).map( task => {
 
-               task.DATE_LOGGED = task.time[task.time.length - 1].DATE_LOGGED
+               task.date_received = task.time[task.time.length - 1].date_received
 
                return task
             })
@@ -53,7 +53,7 @@ const TaskList = ({localDispatch}) => {
       }
 
     
-   }, [dispatch, tasks])
+   }, [])
 
    return (
       <>
@@ -70,7 +70,7 @@ const TaskList = ({localDispatch}) => {
                               
                               localDispatch({type:'ADD_SELECTED_TASK', payload: rowInfo.original})
 
-                              const index = filteredTasks.findIndex(_ => _.TASK_NR === rowInfo.original.TASK_NR)
+                              const index = filteredTasks.findIndex(_ => _.point_nr === rowInfo.original.point_nr)
                               
                               dispatch({type: 'SET_STATE_SELECTED', payload: { index, value: !rowInfo.original.selected }})
                            }
@@ -84,12 +84,12 @@ const TaskList = ({localDispatch}) => {
                      columns: [
                         {
                            Header: "Task NR",
-                           accessor: "TASK_NR"
+                           accessor: "point_nr"
                         },
                         
                         {
                            Header: "Description",
-                           accessor: "DESCRIPTION"
+                           accessor: "instructions"
                         },
                         {
                            Header: "Developer Comments",
@@ -98,12 +98,12 @@ const TaskList = ({localDispatch}) => {
                         },
                         {
                            Header: "Est. Hours",
-                           accessor: "CP_EST_HRS_COMPLETION",
+                           accessor: "time_estimate",
                         
                         },
                         {
                            Header: "Last Date Logged",
-                           accessor: "DATE_LOGGED",
+                           accessor: "date_received",
                            Cell: (_) => <span>{ moment(_.value).format("YYYY-MM-DD")}</span>
                         
                         },
