@@ -1,0 +1,80 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h5, h2, h3 {
+
+  margin: 0;
+}
+
+p {
+
+  font-size: 10px;
+}
+
+body, #root {
+  background-color: #f6f6f6;
+  font-size: .775rem;
+  line-height: 1.4 !important; 
+  height: 100vh !important;
+}
+
+a {
+  color: #333;
+  text-decoration: none !important;
+}
+
+
+.main-nav {
+  
+  z-index: 1000;
+}
+
+
+.main-box{
+  
+  margin-left: 19%;
+}
+
+.main-box-full{
+  
+  margin-left: 45px;
+}
+
+main{
+  transition: all 450ms;
+
+}
+@media screen and (max-width: 1024px) {
+  .main-box {
+
+    margin-left: 0;
+  }
+}
+
+@media print {
+
+  .main-navbar, .sidenav, .report-head, .page-title, .selection {
+    display: none;
+
+  }
+
+  .main-box {
+    margin-left: 0;
+  }
+
+  .gege {
+    
+    display: block;
+  }
+
+  .report-table { 
+    background-color: #ff3a3a; 
+    color: white
+ }
+
+}
+

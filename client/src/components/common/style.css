@@ -1,0 +1,226 @@
+.main-navbar {
+
+   background-color:white;
+}
+
+.navbar-toggler {
+   border: none !important;
+}
+
+
+.navbar-brand {
+   width: 80%;
+}
+
+.logo-box {
+   transition: all 450ms;
+   width: 19%;
+   background-color: #ff3a3a;
+}
+
+.navbar-toggler:focus {
+   outline: none;
+} 
+
+.navbar-brand {
+
+   color: white !important;
+   background-color: #ff3a3a;
+}
+
+.sidenav {
+   width: 4%;
+/*    
+   margin-left: -510px;  */
+   min-height: 100%;
+   z-index: 1;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background-color: white;
+   border-right: 0.2px solid #c5c5c5;
+   overflow-x: hidden;
+   transition: all 450ms;
+   padding-top: 60px;
+}
+
+.active-sn {
+   
+   width: 19%;
+}
+
+.sidenav > ul {
+  list-style: none
+}
+
+.sidenav > ul > li  {
+   cursor: pointer;
+   color: rgb(95, 95, 95);
+}
+
+.sidenav > ul > li:hover {
+   
+   background-color: rgb(255, 111, 111);
+   color: white !important;
+}
+
+.active-li {
+     
+   background-color: rgb(255, 87, 87);
+   color: white !important;
+}
+
+
+
+.btn-menu {
+
+   border-radius: 4%;
+   border: 1px solid rgb(255, 58, 58);
+   background-color: rgb(255, 58, 58);
+   color: #FFFFFF;
+   font-size: 12px;
+   font-weight: bold;
+   width: 18vh;
+   height: 9vh;
+   letter-spacing: 1px;
+   transition: transform 80ms ease-in;
+}
+
+.btn-exact {
+
+   border-radius: 20px;
+   border: 1px solid rgb(255, 58, 58);
+   background-color: rgb(255, 58, 58);
+   color: #FFFFFF;
+   font-size: 12px;
+   font-weight: bold;
+   padding: 10px 25px;
+   letter-spacing: 1px;
+   transition: transform 80ms ease-in;
+}
+
+.btn-exact-default {
+
+   border-radius: 20px;
+   border: 1px solid rgb(218, 218, 218);
+   background-color: rgb(241, 241, 241);
+   color: #333;
+   font-size: 12px;
+   font-weight: bold;
+   padding: 10px 25px;
+   letter-spacing: 1px;
+   transition: transform 80ms ease-in;
+}
+
+
+.btn-exact-sm {
+
+   border-radius: 20px;
+   border: 1px solid rgb(255, 58, 58);
+   background-color: rgb(255, 58, 58);
+   color: #FFFFFF;
+   font-size: 12px;
+   font-weight: bold;
+   padding: 4px 15px;
+   letter-spacing: 1px;
+   transition: transform 80ms ease-in;
+}
+
+.btn-exact-sm:active {
+   transform: scale(0.95);
+}
+
+
+.btn-exact:active {
+   transform: scale(0.95);
+}
+
+.btn-menu:active {
+   transform: scale(0.95);
+}
+
+.btn-exact-default:active {
+   transform: scale(0.95);
+}
+
+.btn-exact:focus, .btn-exact-sm:focus, .btn-menu:focus, .btn-exact-default:focus {
+   outline: none;
+}
+
+.loading-banner{
+
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   background-color: white;
+   height: 100%;
+}
+
+.spinner-banner{
+
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   height: 80%;
+}
+
+.circle {
+
+   height: 12vh;
+   width: 12vh;
+   background-color: rgb(255, 58, 58);
+   color: white;
+   border-radius: 50%;
+}
+
+.item-nr {
+
+   font-size: 2rem;
+}
+
+.lb-3 {
+   border-bottom: 3px solid rgb(255, 58, 58);
+}
+
+.snackbar{
+   z-index: 1;
+   position: fixed;
+   border: 2px solid #ff3a3a;
+   padding: 20px;
+   top: 88vh;
+   left: 20px;
+   border-radius: 6px;
+   background: #ff3a3a;
+   color: white;
+   width: 300px;
+}
+
+.search-list {
+
+   position: absolute;
+   z-index: 1;
+   width: 100%;
+   overflow: auto;
+   max-height: 400px;
+}
+
+.search-list > div > li {
+
+   cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+   .sidenav {
+      width: 45px;
+   }
+
+   .active-sn {
+      width: 256px;
+   }
+   .logo-box {
+
+      width: 256px;
+   }
+ }

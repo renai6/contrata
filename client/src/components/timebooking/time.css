@@ -1,0 +1,73 @@
+.offer-box{
+   background-color: white
+} 
+
+.offer-box > .rt-tbody{
+   font-size: 76%;
+}
+
+.-headerGroups {
+   background-color: #ff5757 !important;
+   color: white;
+}
+
+.rt-tr-group {
+   cursor: pointer;
+}
+
+.badge {
+   position: absolute;
+   top: -3px;
+   right: 6px;
+   padding: 3px 5px;
+   border-radius: 86%;
+   background: #e40023;
+   color: white;
+}
+
+.box-box{
+   display:none;
+   height: 50vh;
+   transition: all 200ms ease-in-out;
+   
+}
+
+.active-box {
+   
+   display: block;
+}
+
+.offer-modal{
+
+   max-width: 95%;
+}
+
+.offer-title {
+
+   transition: all 0.5s ease-in-out;
+}
+
+.miss {
+   transform: scale(1.5);
+   font-weight: bold;
+   color: #ff3a3a;
+   animation: wiggle 0.8s 1s infinite;
+}
+
+@keyframes wiggle {
+
+   0% {
+      
+      transform: translateX(0px) scale(1.5);
+   }
+
+   50% {
+    
+      transform: translateX(10px) scale(1.5);
+   }
+
+   100% {
+     
+      transform: translateX(0px) scale(1.5);
+   }
+}
