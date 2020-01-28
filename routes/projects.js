@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
       
       const project = await Project.findAll({
          where: {
-            PROJECT_ID: 125,
+            id: 125,
 
          },
          include: [{

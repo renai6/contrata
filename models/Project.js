@@ -3,30 +3,31 @@ const Sequelize = require('sequelize')
 const db = require('../config/sqlSrvDatabse')
 const Task = require('./Task')
 
-const Project = db.define('tblProjects', {
-   PROJECT_ID: {
+const Project = db.define('ep_tblproject', {
+   id: {
       type: Sequelize.INTEGER,
       primaryKey: true
    },
 
-   PROJECT_NAME: {
+   proj_name: {
       type: Sequelize.STRING,
    },
 
-   PROJECT_NR: {
+   proj_nr: {
       type: Sequelize.STRING,
    },
 
-   CLIENT_ID: {
+   client_id: {
       type: Sequelize.INTEGER,
    },
 
-}, { 
-
-   timestamps: false,
+}, {
+  tableName: 'ep_tblproject',
+  timestamps: false,
+  logging: false
 })
 
-Project.hasMany(Task, { foreignKey: 'PROJECT_ID', as: 'tasks' })
+Project.hasMany(Task, { foreignKey: 'proj_id', as: 'tasks' })
 
 
 module.exports = Project

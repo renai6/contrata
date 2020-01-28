@@ -2,61 +2,54 @@ const Sequelize = require('sequelize')
 const db = require('../config/sqlSrvDatabse')
 const TaskDateTime = require('./TaskDateTime')
 
-const Task = db.define('tblTasks', {
-   TASK_ID: {
+const Task = db.define('ep_tblpoint', {
+   id: {
       type: Sequelize.INTEGER,
       primaryKey: true
    },
 
-   PROJECT_ID: {
+   proj_id: {
       type: Sequelize.INTEGER,
    },
 
-   TASK_NR: {
+   point_nr: {
       type: Sequelize.INTEGER,
    },
 
-   SUBPROJECT_ID: {
+   invoice_id: {
       type: Sequelize.INTEGER,
    },
 
-   INVOICE_ID: {
-      type: Sequelize.INTEGER,
-   },
-
-   OFFER_ID: {
+   offer_id: {
       type: Sequelize.INTEGER,
    },
    
-   CP_EST_HRS_COMPLETION: {
+   time_estimate: {
       type: Sequelize.FLOAT,
    },
 
-   IS_ARCHIVED: {
+   is_archived: {
       type: Sequelize.BOOLEAN
    },
 
-   IS_MERGE: {
+   is_merge: {
       type: Sequelize.INTEGER
    },
 
-   TASK_STATUS: {
+   status: {
       type: Sequelize.STRING
    },
 
-   DESCRIPTION: {
-      type: Sequelize.STRING
-   },
-
-   DEVELOPER_COMMENTS: {
+   instructions: {
       type: Sequelize.STRING
    },
 
 }, { 
-
-   timestamps: false,
+  tableName: 'ep_tblpoint',
+  logging: false,
+  timestamps: false,
 })
 
-Task.hasMany(TaskDateTime, { foreignKey: 'TASK_ID', as: 'time' })
+Task.hasMany(TaskDateTime, { foreignKey: 'point_id', as: 'time' })
 
 module.exports = Task

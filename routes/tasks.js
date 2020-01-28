@@ -18,16 +18,16 @@ router.get('/', async (req, res) => {
    try {
 
       const projects = await Project.findAll({
-         where: {
-            PROJECT_NR: {
-               [Op.like]: '2%'
-            }
-         },
+        //  where: {
+        //     proj_nr: {
+        //        [Op.like]: '2%'
+        //     }
+        //  },
          include: [{
             model: Task,
             as: 'tasks',
             required: true,
-            where: { IS_MERGE: null, TASK_STATUS: 'Closed' },
+            where: { is_merge: 0, status: 'Closed' },
             include: [{
                model: TaskDateTime,
                as: 'time',
@@ -55,7 +55,7 @@ router.put('/update', auth, async (req, res) => {
          
          const {TASK_ID, ...rest} = item
 
-         await Task.update(rest, { where: { TASK_ID }})
+         await Task.update(rest, { where: { id: TASK_ID }})
       }
 
 

@@ -70,6 +70,8 @@ const OfferPosition = db.define('offerpositions', {
       defaultValue: false
    },
 
+}, {
+  logging: false
 })
 
 OfferPosition.hasMany(Expense, { foreignKey: 'offerPositionId', as: 'expenses' })

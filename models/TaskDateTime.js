@@ -3,27 +3,32 @@
 const Sequelize = require('sequelize')
 const db = require('../config/sqlSrvDatabse')
 
-const TaskDateTime = db.define('tblTaskDateTimes', {
-   ID: {
+const TaskDateTime = db.define('ep_tbltimelog', {
+    id: {
       type: Sequelize.INTEGER,
       primaryKey: true
-   },
+    },
 
-   TASK_ID: {
+    point_id: {
       type: Sequelize.INTEGER,
-   },
+    },
 
-   TIME_ELAPSED: {
-      type: Sequelize.STRING,
-   },
+    start_time: {
+      type: Sequelize.DataTypes.STRING(255),
+    },
 
-   DATE_LOGGED: {
+    end_time: {
+      type: Sequelize.DataTypes.STRING(255),
+    },
+
+    date_received: {
       type: Sequelize.DATE,
-   },
+    },
 
 }, { 
-
-   timestamps: false,
+  tableName: 'ep_tbltimelog',
+  logging: false,
+  timestamps: false,
 })
 
 module.exports = TaskDateTime
