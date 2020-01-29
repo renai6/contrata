@@ -45,16 +45,19 @@ const OfferList = ({offerList, localDispatch, setOfferTasksModal}) => {
                   },
                   {
                      Header: "Amount",
-                     accessor: "offerAmount"
+                     accessor: "offerAmount",
+                     Cell: (_) => <span>{parseFloat(_.value).toLocaleString('de-ch', { minimumFractionDigits: 2})}</span>
                   },
               
                   {
                      Header: "Used Amount (CHF)",
-                     accessor: "usedAmount"
+                     accessor: "usedAmount",
+                     Cell: (_) => <span>{parseFloat(_.value).toLocaleString('de-ch', { minimumFractionDigits: 2})}</span>
                   },
                   {
                      Header: "Open Amount (CHF)",
-                     accessor: "openAmount"
+                     accessor: "openAmount",
+                     Cell: (_) => <span>{parseFloat(_.value).toLocaleString('de-ch', { minimumFractionDigits: 2})}</span>
                   },
                   {
                      Header: "Open Hours",

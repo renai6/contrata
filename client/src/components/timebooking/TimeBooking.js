@@ -129,6 +129,7 @@ const TimeBooking = () => {
                
                
             const subIndex = currentContract.subContracts.findIndex(_ =>  parseInt(e.currentTarget.value) === _.id)
+            console.log(currentContract.subContracts)
 
             dispatch({type:'SUBCONTRACT_SELECT', payload: parseInt(e.currentTarget.value)}) 
          

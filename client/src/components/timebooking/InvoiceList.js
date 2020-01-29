@@ -30,6 +30,7 @@ const InvoiceList = ({currentOffer}) => {
                {
                   Header: "Amount (CHF)",
                   accessor: "amount",
+                  Cell: (_) => <span>{parseFloat(_.value).toLocaleString('de-ch', { minimumFractionDigits: 2})}</span>
                
                },
             ]

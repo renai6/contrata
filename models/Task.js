@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/sqlSrvDatabse')
 const TaskDateTime = require('./TaskDateTime')
+const TaskComment = require('./TaskComment')
 
 const Task = db.define('ep_tblpoint', {
    id: {
@@ -51,5 +52,6 @@ const Task = db.define('ep_tblpoint', {
 })
 
 Task.hasMany(TaskDateTime, { foreignKey: 'point_id', as: 'time' })
+Task.hasMany(TaskComment, { foreignKey: 'point_id', as: 'comments' })
 
 module.exports = Task

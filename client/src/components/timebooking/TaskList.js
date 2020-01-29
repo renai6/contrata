@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { UncontrolledTooltip } from 'reactstrap';
 import axios from 'axios'
 import ReactTable from 'react-table'
 import * as moment from 'moment'
@@ -70,7 +71,7 @@ const TaskList = ({localDispatch}) => {
                               
                               localDispatch({type:'ADD_SELECTED_TASK', payload: rowInfo.original})
 
-                              const index = filteredTasks.findIndex(_ => _.point_nr === rowInfo.original.point_nr)
+                              const index = filteredTasks.findIndex(_ => _.id === rowInfo.original.id)
                               
                               dispatch({type: 'SET_STATE_SELECTED', payload: { index, value: !rowInfo.original.selected }})
                            }
@@ -94,7 +95,12 @@ const TaskList = ({localDispatch}) => {
                         {
                            Header: "Developer Comments",
                            accessor: "DEVELOPER_COMMENTS",
-                        
+                           Cell: (_) => (
+                            <>
+                              <span id={`tooltip-${_.index}`}>{ _.value }</span>
+                              <UncontrolledTooltip placement="right" target={`tooltip-${_.index}`}><pre className="comment-tip">{ _.value }</pre></UncontrolledTooltip>
+                            </>
+                           )
                         },
                         {
                            Header: "Est. Hours",

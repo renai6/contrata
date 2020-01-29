@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { UncontrolledTooltip } from 'reactstrap';
 import ReactTable from 'react-table'
 import axios from 'axios'
 import * as moment from 'moment'
@@ -40,9 +41,10 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
          for (const task of selectedTasks) {
 
             const tempHours = task.time.reduce((accumulator, time) => {
-               
-               const munites = accumulator + parseInt(time.TIME_ELAPSED.split("T")[1].split(":")[1]);
-               const hours = accumulator + parseInt(time.TIME_ELAPSED.split("T")[1].split(":")[0]);
+              const duration = !!time.start_time && !!time.end_time ? moment.duration(moment(time.end_time, 'HH:mm').diff(moment(time.start_time, 'HH:mm'))): {hours: () => 0, minutes: () => 0};
+
+              const munites = accumulator + duration.minutes();
+              const hours = accumulator + duration.hours();
                
                let m = munites/60
       
@@ -86,7 +88,7 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
       const _taskData = [{
 
          IS_MERGE: 0,
-         TASK_ID: data.TASK_ID,
+         TASK_ID: data.id,
          OFFER_ID: currentOffer.id,
         
       }]
@@ -98,7 +100,7 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
             
          await axios.delete(`/api/offertasks/archive/${data.id}`)
 
-         const taskIndex = currentBook.offerTasks.findIndex(_ => _.TASK_ID === data.TASK_ID)
+         const taskIndex = currentBook.offerTasks.findIndex(_ => _.id === data.id)
 
          const _payLoad = {
             contractIndex: indexes.contract,
@@ -118,20 +120,20 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
 
 
    const saveBookChanges = async () => {
-      
+        console.log(selectedTasks)
       
       const _data = selectedTasks.map(task =>  ({
          bookId: currentBook.id,
          OFFER_ID: currentOffer.id,
-         TASK_NR: task.TASK_NR,
-         TASK_ID: task.TASK_ID,
+         TASK_NR: task.point_nr,
+         TASK_ID: task.id,
          SUBPROJECT_ID: currentOffer.subContractId,
          CLIENT_ID: currentOffer.clientId,
          CONTRACT_ID: currentOffer.contractId,
-         CP_EST_HRS_COMPLETION: task.CP_EST_HRS_COMPLETION,
+         CP_EST_HRS_COMPLETION: task.time_estimate,
          totalHours: parseFloat(selectedTotalHours.toFixed(2)),
-         IS_ARCHIVED: task.IS_ARCHIVED,
-         DESCRIPTION: task.DESCRIPTION,
+         IS_ARCHIVED: task.is_archived,
+         DESCRIPTION: task.instructions,
          DEVELOPER_COMMENTS: task.DEVELOPER_COMMENTS,
          month: currentBook.month,
          year: currentBook.year,
@@ -140,7 +142,7 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
       const _taskData = selectedTasks.map(task =>  ({
 
          IS_MERGE: 1,
-         TASK_ID: task.TASK_ID,
+         TASK_ID: task.id,
          OFFER_ID: currentOffer.id,
         
       }))
@@ -317,19 +319,19 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                                              
                                              if(rowInfo) {
                                                 const tasks = selectedTasks
-                                                const taskIndex = tasks.findIndex(_ => _.TASK_NR === rowInfo.original.TASK_NR)
+                                                const taskIndex = tasks.findIndex(_ => _.point_nr === rowInfo.original.point_nr)
 
                                                 if(taskIndex < 0) {
                                                    setSelectedTasks(prevTasks => ([...prevTasks, rowInfo.original]))
-                                                   const index = filteredTasks.findIndex(_ => _.TASK_NR === rowInfo.original.TASK_NR)
+                                                   const index = filteredTasks.findIndex(_ => _.point_nr === rowInfo.original.point_nr)
                                                    dispatch({type: 'SET_STATE_SELECTED', payload: { index, value: !rowInfo.original.selected }})
                                                 } else {
 
-                                                   const newTasks = tasks.filter(_ => _.TASK_NR !== rowInfo.original.TASK_NR)
+                                                   const newTasks = tasks.filter(_ => _.point_nr !== rowInfo.original.point_nr)
                                                   
                                                    setSelectedTasks(newTasks)
 
-                                                   const index = filteredTasks.findIndex(_ => _.TASK_NR === rowInfo.original.TASK_NR)
+                                                   const index = filteredTasks.findIndex(_ => _.point_nr === rowInfo.original.point_nr)
 
                                                    dispatch({type: 'SET_STATE_SELECTED', payload: { index, value: !rowInfo.original.selected }})
                                                 }
@@ -347,21 +349,26 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                                         
                                           {
                                              Header: "Description",
-                                             accessor: "DESCRIPTION"
+                                             accessor: "instructions"
                                           },
                                           {
                                              Header: "Developer Comments",
                                              accessor: "DEVELOPER_COMMENTS",
-                                          
+                                             Cell: (_) => (
+                                                <>
+                                                  <span id={`tooltipq-${_.index}`}>{ _.value }</span>
+                                                  <UncontrolledTooltip placement="right" target={`tooltipq-${_.index}`}><pre className="comment-tip">{ _.value }</pre></UncontrolledTooltip>
+                                                </>
+                                              )
                                           },
                                           {
                                              Header: "Est. Hours",
-                                             accessor: "CP_EST_HRS_COMPLETION",
+                                             accessor: "time_estimate",
                                           
                                           },
                                           {
                                              Header: "Last Date Logged",
-                                             accessor: "DATE_LOGGED",
+                                             accessor: "date_updated",
                                              Cell: (_) => <span>{ moment(_.value).format("YYYY-MM-DD")}</span>
                                           
                                           },
@@ -386,7 +393,7 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                               
                                  <ContractPoint callback={bookUpdate} isNumber model="book" field="bookNumber" id={currentBook.id} title="Book Number" value={ currentBook.bookNumber } icon="fas fa-file-contract" />
                                  <ContractPoint callback={bookUpdate} model="book" field="month" id={currentBook.id} title="Month" value={ currentBook.month } icon="fas fa-file-contract" />
-                                 <ContractPoint callback={bookUpdate} isNumber model="book" field="year" id={currentBook.id} title="Year" value={ currentBook.year } icon="fas fa-file-contract" />
+                                 <ContractPoint callback={bookUpdate} model="book" field="year" id={currentBook.id} title="Year" value={ currentBook.year } icon="fas fa-file-contract" />
                                  <ContractPoint callback={bookUpdate} isNumber model="book" field="hours" id={currentBook.id} title="Hours" value={ currentBook.hours } icon="fas fa-file-contract" />
 
                               </>
@@ -435,7 +442,12 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                                           {
                                              Header: "Developer Comments",
                                              accessor: "DEVELOPER_COMMENTS",
-                                          
+                                             Cell: (_) => (
+                                                <>
+                                                  <span id={`tooltips-${_.index}`}>{ _.value }</span>
+                                                  <UncontrolledTooltip placement="right" target={`tooltips-${_.index}`}><pre className="comment-tip">{ _.value }</pre></UncontrolledTooltip>
+                                                </>
+                                              )
                                           },
                                           {
                                              Header: "Est. Hours",
@@ -497,7 +509,7 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                                        {
                                           Header: "Used Amount",
                                           accessor: "amount",
-                                       
+                                          Cell: (_) => <span>{parseFloat(_.value).toLocaleString('de-ch', { minimumFractionDigits: 2})}</span>
                                        },
                                        {
                                           Header: "Used Hours",
@@ -508,7 +520,6 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                                           Header: "Date Created",
                                           accessor: "createdAt",
                                           Cell: (_) => <span>{ moment(_.value).format("YYYY-MM-DD")}</span>
-                                       
                                        },
 
                                     ]

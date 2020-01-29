@@ -54,7 +54,7 @@ const AddOfferPosition = ({offerPositionModal, toggleOPModal, subContract }) => 
 
       const _data = {
 
-         clientId: subContract.clientId,
+         clientId: subContract.id,
          contractId: subContract.contractId,
          subContractId: subContract.id,
          projectName: subContract.name,

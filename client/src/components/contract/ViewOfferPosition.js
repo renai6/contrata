@@ -48,7 +48,7 @@ const ViewOfferPosition = (props) => {
 
                      <ContractPoint model="offerposition" id={currentOfferPosition.id} field="offerName" title="Offer Name" value={ currentOfferPosition.offerName } icon="fas fa-file-signature" />
 
-                     <ContractPoint model="offerposition" id={currentOfferPosition.id} field="offerAmount" title="Offer Amount (CHF)" value={ currentOfferPosition.offerAmount } icon="fas fa-dollar-sign" />
+                     <ContractPoint isNumber isCurrency model="offerposition" id={currentOfferPosition.id} field="offerAmount" title="Offer Amount (CHF)" value={ currentOfferPosition.offerAmount } icon="fas fa-dollar-sign" />
 
                      <ContractPoint isDrop model="offerposition" id={currentOfferPosition.id} field="status" title="Status" value={ currentOfferPosition.status } icon="fas fa-wave-square" />
 

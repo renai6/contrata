@@ -67,8 +67,8 @@ const AddCrontract = ({localDispatch, state, selectedClient}) => {
       
       const client = JSON.parse(e.currentTarget.value)
       console.log(client)
-      Contract.dispatch({type: 'INPUT', field:'clientId', value: client.CLIENT_ID})
-      Contract.dispatch({type: 'INPUT', field:'clientName', value: client.CLIENT_NAME})
+      Contract.dispatch({type: 'INPUT', field:'clientId', value: client.id})
+      Contract.dispatch({type: 'INPUT', field:'clientName', value: client.clientname})
 
       // const found = clients.filter(client => client.CLIENT_ID === parseInt(selectedClient) )
       // console.log(found)
@@ -147,7 +147,7 @@ const AddCrontract = ({localDispatch, state, selectedClient}) => {
                            <option value={0} >Select Client</option>
                            {
                               clients.map(client => (
-                                 <option key={ client.CLIENT_ID } value={JSON.stringify(client)} >{ client.CLIENT_NAME }</option>
+                                 <option key={ client.id } value={JSON.stringify(client)} >{ client.clientname }</option>
                               ))
                            }
                         </Selections>

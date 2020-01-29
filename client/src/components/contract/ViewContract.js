@@ -42,11 +42,11 @@ const ViewContract = (props) => {
 
                         <ContractPoint isDate model="contract" id={currentContract.id} field="endDate" title="End Date" value={ moment(currentContract.endDate).format('YYYY-MM-DD') } icon="fas fa-calendar-alt" />
 
-                        <ContractPoint isNumber model="contract" id={currentContract.id} field="fixedContractAmount" title="Fixed Contract Amount (CHF)" value={ currentContract.fixedContractAmount } icon="fas fa-dollar-sign" />
+                        <ContractPoint isNumber isCurrency model="contract" id={currentContract.id} field="fixedContractAmount" title="Fixed Contract Amount (CHF)" value={ currentContract.fixedContractAmount } icon="fas fa-dollar-sign" />
 
-                        <ContractPoint isNumber model="contract" id={currentContract.id} field="fixedPaymentAmount" title="Fixed Payment Amount (CHF)" value= {currentContract.fixedPaymentAmount } icon="fas fa-dollar-sign" />
+                        <ContractPoint isNumber isCurrency model="contract" id={currentContract.id} field="fixedPaymentAmount" title="Fixed Payment Amount (CHF)" value= {currentContract.fixedPaymentAmount } icon="fas fa-dollar-sign" />
 
-                        <ContractPoint isNumber model="contract" id={currentContract.id} field="hourlyRate" title="Hourly Rate" value={ currentContract.hourlyRate } icon="fas fa-hourglass-half" />
+                        <ContractPoint isNumber isCurrency model="contract" id={currentContract.id} field="hourlyRate" title="Hourly Rate" value={ currentContract.hourlyRate } icon="fas fa-hourglass-half" />
 
                         <ContractPoint model="contract" id={currentContract.id} field="travelExpense" title="Travel Expense" value={ currentContract.travelExpense? 'Yes': 'No' } icon="fas fa-bus" />
 
