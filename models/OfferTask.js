@@ -64,6 +64,8 @@ const OfferTask = db.define('tasks', {
       type: Sequelize.STRING
    },
 
+}, {
+  logging: false
 })
 
 module.exports = OfferTask

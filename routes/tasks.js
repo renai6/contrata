@@ -6,6 +6,8 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op;
 const auth = require('../middleware/auth')
 const db = require('../config/sqlSrvDatabse')
+const ExactplaceUser = require('../models/ExactplaceUser')
+const TaskComment = require('../models/TaskComment')
 const Task = require('../models/Task')
 const TaskDateTime = require('../models/TaskDateTime')
 const Project = require('../models/Project')
@@ -18,25 +20,47 @@ router.get('/', async (req, res) => {
    try {
 
       const projects = await Project.findAll({
-         where: {
-            PROJECT_NR: {
-               [Op.like]: '2%'
-            }
-         },
+        //  where: {
+        //     proj_nr: {
+        //        [Op.like]: '2%'
+        //     }
+        //  },
          include: [{
             model: Task,
             as: 'tasks',
             required: true,
-            where: { IS_MERGE: null, TASK_STATUS: 'Closed' },
+            where: { is_merge: 0, status: 'Closed' },
             include: [{
                model: TaskDateTime,
                as: 'time',
                required: true
+            }, {
+              model: TaskComment,
+              as: 'comments',
+              include: [{ 
+                model: ExactplaceUser, 
+                as: 'user' 
+              }]
             }]
-         }]
+         }],
       })
 
-      // projects.forEach(project => tasks.push(...project.tasks))
+      projects.map(project => {
+        const tasks = project.get().tasks.map(task => {
+          let result = ''
+          task.get().comments.forEach(data => {
+            const date = data.get().date_commented.getUTCFullYear() + '.' + data.get().date_commented.getUTCDate() + '.' + (data.get().date_commented.getUTCMonth() + 1)
+            result += date + ' | ' + data.get().user.first_name + ' ' + data.get().user.last_name + '\r\n' + data.get().comments + '\r\n\r\n'
+          })
+          task.setDataValue('DEVELOPER_COMMENTS', result)
+          
+          return task
+        })
+
+        project.setDataValue('tasks', tasks)
+        return project
+      })
+
       return res.json(projects)
 
    } catch (error) {
@@ -55,7 +79,7 @@ router.put('/update', auth, async (req, res) => {
          
          const {TASK_ID, ...rest} = item
 
-         await Task.update(rest, { where: { TASK_ID }})
+         await Task.update(rest, { where: { id: TASK_ID }})
       }
 
 

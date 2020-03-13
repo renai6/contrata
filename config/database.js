@@ -11,6 +11,7 @@ switch (process.env.NODE_ENV) {
         host: 'exactconstruct.synology.me',
         dialect: 'mysql',
         port: 3307,
+        logging: false,
         retry  : {
           match: [
             /ETIMEDOUT/,
@@ -48,7 +49,8 @@ switch (process.env.NODE_ENV) {
       // instance = new Sequelize('contrata', 'exact', '2GrD7M7KKPZCkCA6', {
       //   host: 'exactconstruct.synology.me',
         dialect: 'mysql',
-        port: 3307,
+        // port: 3307,
+        logging: false,
         retry  : {
           match: [
             /ETIMEDOUT/,
@@ -85,6 +87,7 @@ switch (process.env.NODE_ENV) {
       instance = new Sequelize('contrata', 'root', '', {
         host: 'localhost',
         dialect: 'mysql',
+        logging: false,
         pool: {
           max: 5,
           min: 0,

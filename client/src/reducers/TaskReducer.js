@@ -44,7 +44,7 @@ const TaskReducer = (state, action) => {
          if(action.payload) {
             
             state.filteredTasks = state.tasks
-               .filter(task => task.PROJECT_NR === action.payload.projectNr)
+               .filter(task => task.proj_id == action.payload.projectNr)
                .map(task => {
 
                   task.selected = false

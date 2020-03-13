@@ -1,19 +1,19 @@
 const Sequelize = require('sequelize')
 const db = require('../config/sqlSrvDatabse')
 
-const Client = db.define('tblClients', {
-   CLIENT_ID: {
+const Client = db.define('ep_tblclients', {
+   id: {
       type: Sequelize.INTEGER,
       primaryKey: true
    },
 
-   CLIENT_NAME: {
+   clientname: {
       type: Sequelize.STRING
    },
 
 }, { 
-
    timestamps: false,
+   logging: false
 })
 
 module.exports = Client

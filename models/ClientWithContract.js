@@ -16,6 +16,8 @@ const clientWithContract = db.define('clientswithcontracts', {
       type: Sequelize.INTEGER
    },
 
+}, {
+  logging: false
 })
 
 module.exports = clientWithContract

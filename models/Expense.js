@@ -42,6 +42,8 @@ const OfferPosition = db.define('expenses', {
       defaultValue: false
    },
 
+}, {
+  logging: false
 })
 
 module.exports = OfferPosition

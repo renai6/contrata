@@ -51,7 +51,7 @@ const ViewSubContract = (props) => {
 
                   <ContractPoint model="subcontract" id={currentSubContract.id} field="approvedDate" title="Approved Date" value={ moment(currentSubContract.approvedDate).format('YYYY-MM-DD') } icon="fas fa-calendar-alt" />
 
-                  <ContractPoint isNumber model="subcontract" id={currentSubContract.id} field="offerAmount" title="Offer Amount" value={ currentSubContract.offerAmount } icon="fas fa-bus" />
+                  <ContractPoint isNumber isCurrency model="subcontract" id={currentSubContract.id} field="offerAmount" title="Offer Amount" value={ currentSubContract.offerAmount } icon="fas fa-bus" />
 
                   <ContractPoint isDrop model="subcontract" id={currentSubContract.id} field="status" title="Status" value={ currentSubContract.status } icon="fas fa-wave-square" />
 

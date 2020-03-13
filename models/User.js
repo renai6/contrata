@@ -34,8 +34,9 @@ const User = db.define('users', {
    active: {
       type: Sequelize.BOOLEAN
    },
-
-
+}, {
+  tableName: 'users',
+  logging: false
 })
 
 module.exports = User
