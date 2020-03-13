@@ -68,6 +68,8 @@ const Contract = db.define('contracts', {
       defaultValue: false
    },
 
+}, {
+  logging: false
 })
 
 Contract.hasMany(SubContract, { foreignKey: 'contractId', as: 'subContracts' })

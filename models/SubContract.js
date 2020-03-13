@@ -57,8 +57,8 @@ const SubContract = db.define('subcontracts', {
       defaultValue: false
    },
 
-
-
+}, {
+  logging: false
 })
 
 SubContract.hasMany(OfferPosition, { foreignKey: 'subContractId', as: 'offerPositions' })

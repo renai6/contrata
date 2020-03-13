@@ -25,10 +25,10 @@ const AddedTasks = ({selectedTasks}) => {
 
                         {
                            selectedTasks.map(task => (
-                              <tr key={task.TASK_ID}>
+                              <tr key={task.id}>
                         
-                                 <td>{task.TASK_NR}</td>
-                                 <td>{ task.CP_EST_HRS_COMPLETION }</td>
+                                 <td>{task.id}</td>
+                                 <td>{ task.time_estimate }</td>
                               </tr>
                            ))
                         }

@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 // context
 import { ContractContext } from '../../contexts/ContractContext'
 
-const ContractPoint = ({ title, value, icon, id, field, model, isNumber, callback, isDrop, isDate }) => {
+const ContractPoint = ({ title, value, icon, id, field, model, isNumber, isCurrency, callback, isDrop, isDate }) => {
 
    const [edit, setEdit] = useState(false)
    const [editValue, setEditValue] = useState(value)
@@ -114,7 +114,7 @@ const ContractPoint = ({ title, value, icon, id, field, model, isNumber, callbac
                         <form onSubmit={ handleSubmit } className="mx-2 point-form">
                            <input type="text" className="point-input pl-1" onBlur={() => setEdit(false) } onChange={ (e) => setEditValue(e.currentTarget.value) } value={editValue} autoFocus />
                         </form>
-               :<p onClick={ () => setEdit(!edit) } className="ml-2 mt-0 mb-0 point">{ isDrop? getStatusValue(value) : value }</p>
+               :<p onClick={ () => setEdit(!edit) } className="ml-2 mt-0 mb-0 point">{ isDrop? getStatusValue(value) : isCurrency ? parseFloat(value).toLocaleString('de-ch', { minimumFractionDigits: 2}): value }</p>
          }
         
       </div>

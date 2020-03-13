@@ -52,6 +52,8 @@ const Book = db.define('books', {
       defaultValue: false
    },
 
+}, {
+  logging: false
 })
 
 

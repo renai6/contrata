@@ -1,4 +1,4 @@
-
+const moment = require('moment');
 const today = new Date()
 const TimeReducer = (state, action) => {
 
@@ -56,19 +56,20 @@ const TimeReducer = (state, action) => {
 
       case 'REMOVE_SELECTED_TASK':
 
-         const newSelected = state.selectedTasks.filter(task => task.TASK_ID !== action.payload)
+         const newSelected = state.selectedTasks.filter(task => task.id !== action.payload)
          let newHours = 0
 
          newSelected.forEach(task => {
 
             newHours = task.time.reduce((accumulator, time) => {
-            
-               const munites = accumulator + parseInt(time.TIME_ELAPSED.split("T")[1].split(":")[1]);
-               const hours = accumulator + parseInt(time.TIME_ELAPSED.split("T")[1].split(":")[0]);
-               
-               let m = munites/60
-   
-               return hours + parseFloat(m)
+              const duration = !!time.start_time && !!time.end_time ? moment.duration(moment(time.end_time, 'HH:mm').diff(moment(time.start_time, 'HH:mm'))): {hours: () => 0, minutes: () => 0};
+
+              const munites = accumulator + duration.minutes();
+              const hours = accumulator + duration.hours();
+              
+              let m = munites/60
+  
+              return hours + parseFloat(m)
             }, 0)
          })
         
@@ -85,12 +86,13 @@ const TimeReducer = (state, action) => {
       case 'ADD_SELECTED_TASK':
             
        
-         const index = state.selectedTasks.findIndex(task => task.TASK_ID === action.payload.TASK_ID)
+         const index = state.selectedTasks.findIndex(task => task.id === action.payload.id)
 
          const hours = action.payload.time.reduce((accumulator, time) => {
-            
-            const munites = accumulator + parseInt(time.TIME_ELAPSED.split("T")[1].split(":")[1]);
-            const hours = accumulator + parseInt(time.TIME_ELAPSED.split("T")[1].split(":")[0]);
+              const duration = !!time.start_time && !!time.end_time ? moment.duration(moment(time.end_time, 'HH:mm').diff(moment(time.start_time, 'HH:mm'))): {hours: () => 0, minutes: () => 0};
+              
+              const munites = accumulator + duration.minutes();
+              const hours = accumulator + duration.hours();
             
             let m = munites/60
 

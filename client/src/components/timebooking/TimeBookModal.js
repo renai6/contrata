@@ -41,13 +41,13 @@ const TimeBookModal = ({ bookModal, setBookModal, selectedTasks, totalHours, loc
    } = state
 
    const setAmount = (e) => {
-      console.log(currentContract)
+      console.log(selectedOffer)
       const hours = e.currentTarget.value
       const hourlyRate = currentContract.hourlyRate
-      const expenses = selectedOffer.expenses.reduce((sum, init) => {
+      const expenses = selectedOffer.expenses? selectedOffer.expenses.reduce((sum, init) => {
 
          return sum + init.expenseAmount
-      }, 0)
+      }, 0): 0
 
       localDispatch({type: 'INPUT', field: 'hours', value: hours })
 
@@ -84,15 +84,15 @@ const TimeBookModal = ({ bookModal, setBookModal, selectedTasks, totalHours, loc
             bookId: newBook.id,
             IS_MERGE: 1,
             OFFER_ID: selectedOffer.id,
-            TASK_NR: task.TASK_NR,
-            TASK_ID: task.TASK_ID,
+            TASK_NR: task.point_nr,
+            TASK_ID: task.id,
             SUBPROJECT_ID: selectedOffer.subContractId,
             CLIENT_ID: selectedOffer.clientId,
             CONTRACT_ID: selectedOffer.contractId,
-            CP_EST_HRS_COMPLETION: task.CP_EST_HRS_COMPLETION,
+            CP_EST_HRS_COMPLETION: task.time_estimate,
             totalHours: parseFloat(totalHours.toFixed(2)),
-            IS_ARCHIVED: task.IS_ARCHIVED,
-            DESCRIPTION: task.DESCRIPTION,
+            IS_ARCHIVED: task.is_archived,
+            DESCRIPTION: task.instructions,
             DEVELOPER_COMMENTS: task.DEVELOPER_COMMENTS,
             month,
             year,
@@ -114,7 +114,7 @@ const TimeBookModal = ({ bookModal, setBookModal, selectedTasks, totalHours, loc
          const _taskData = selectedTasks.map(task =>  ({
 
             IS_MERGE: 1,
-            TASK_ID: task.TASK_ID,
+            TASK_ID: task.id,
             OFFER_ID: selectedOffer.id,
            
          }))
@@ -184,7 +184,7 @@ const TimeBookModal = ({ bookModal, setBookModal, selectedTasks, totalHours, loc
 
          selectedTasks.forEach(task => {
             
-            const taskIndex = filteredTasks.findIndex(_ => _.TASK_ID === task.TASK_ID )
+            const taskIndex = filteredTasks.findIndex(_ => _.id === task.id )
             console.log(taskIndex)
             taskDispatch({type: 'REMOVE_TASK_SELECTED', payload: { taskIndex } })
          })
@@ -221,11 +221,11 @@ const TimeBookModal = ({ bookModal, setBookModal, selectedTasks, totalHours, loc
                                     <tbody>
                                        {
                                           selectedTasks.map(task => (
-                                             <tr key={task.TASK_ID}>
-                                                <td>{task.TASK_NR}</td>
-                                                <td>{ task.CP_EST_HRS_COMPLETION }</td>
-                                                <td>{ task.DESCRIPTION }</td>
-                                                <td style={{textAlign: 'center'}}> <span className="icon" onClick={() => localDispatch({type: 'REMOVE_SELECTED_TASK', payload: task.TASK_ID })}><i className="fas fa-times"></i></span> </td>
+                                             <tr key={task.id}>
+                                                <td>{task.point_nr}</td>
+                                                <td>{ task.time_estimate }</td>
+                                                <td>{ task.instructions }</td>
+                                                <td style={{textAlign: 'center'}}> <span className="icon" onClick={() => localDispatch({type: 'REMOVE_SELECTED_TASK', payload: task.id })}><i className="fas fa-times"></i></span> </td>
                                              </tr>
                                           ))
                                        }
