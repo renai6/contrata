@@ -18,7 +18,7 @@ const TaskList = ({localDispatch}) => {
       const fetchTasks = async () => {
 
          try {
-           console.log('wew')
+            
             const {data} = await axios.get('/api/tasks')
 
             const _tasks = data.reduce(( arr, project ) => {
@@ -54,7 +54,7 @@ const TaskList = ({localDispatch}) => {
       }
 
     
-   }, [])
+   }, [dispatch, tasks])
 
    return (
       <>

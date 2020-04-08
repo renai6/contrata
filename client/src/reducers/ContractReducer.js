@@ -7,6 +7,7 @@ const ContractReducer = (state, action) => {
    switch (action.type) {
 
       // Invoice
+
       case 'ADD_TO_BOOK': 
 
          state.contracts[action.payload.contractIndex]

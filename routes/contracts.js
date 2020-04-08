@@ -46,6 +46,14 @@ router.get('/:id', auth, async (req, res) => {
                            },
                            include: [
                               {
+                                 model: Expense,
+                                 as: 'expenses',
+                                 required: false,
+                                 where: {
+                                    archived: 0
+                                 },
+                                
+                              }, {
                                  model: Invoice,
                                  as: 'books',
                                  required: false,

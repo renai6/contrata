@@ -81,7 +81,7 @@ const Contract = () => {
       (async () => {
          
          try {
-
+            dispatch({ type:'SET_SELECTED_CLIENT', payload: 0 }) 
             const resWithContracts = await axios.get('/api/clientwithcontract')
             clientDispatch({type: 'SET_WITHCONTRACTS', payload: resWithContracts.data})
          } catch(e) {
@@ -89,7 +89,7 @@ const Contract = () => {
          }
       })()
       
-   }, [clientDispatch])
+   }, [clientDispatch, dispatch])
 
    useEffect(() => {
 
@@ -187,7 +187,7 @@ const Contract = () => {
 
    const handleClientSelect = (model, e) => {
       
-      dispatch({ type:'SET_SELECTED_CLIENT', payload: e }) 
+      dispatch({ type:'SET_SELECTED_CLIENT', payload: parseInt(e) }) 
    }
 
 
@@ -346,6 +346,29 @@ const Contract = () => {
                            </Col> : ''
                      }
 
+                     {
+
+                     expenseIsOpen?
+
+                        <Col sm={12} xs={12} lg={width} md={width} xl={width} >
+                           <div className="d-flex justify-content-between align-items-center mb-2">
+
+                              <h5 style={{color: '#a31423', fontWeight: 'bold'}}>Expenses</h5>
+                              
+                              <span className="icon mr-3 mb-1" onClick={() => toggleEModal(!expenseModal)}><i className="fas fa-plus-circle fa-lg"></i></span>
+                           </div>
+                           <AddExpense toggleEModal={toggleEModal} expenseModal={expenseModal} offerPosition={currentOfferPosition} />
+                           {
+                              currentOfferPosition.expenses.length > 0?
+                                 <ExpenseItem expenses={currentOfferPosition.expenses} openDeleteWindow={openDeleteWindow} />:
+                                 <Alert color="warning">
+                                    Empty <strong>Expenses for {currentOfferPosition.offerName}</strong>, add one now!
+                                 </Alert>
+                           }
+                           
+                        </Col> : ''
+                     }
+
                  
                      {
 
@@ -360,7 +383,7 @@ const Contract = () => {
                      }
                      
                </Row>
-               <Row className="mt-3"> 
+               {/* <Row className="mt-3"> 
                   <Col sm={12} xs={12} lg={12} md={12} xl={12} >
                      <div className="d-flex justify-content-between align-items-center mb-2">
 
@@ -368,17 +391,17 @@ const Contract = () => {
                         
                         <span className="icon mr-3 mb-1" onClick={() => toggleEModal(!expenseModal)}><i className="fas fa-plus-circle fa-lg"></i></span>
                      </div>
-                     {/* <AddExpense toggleEModal={toggleEModal} expenseModal={expenseModal} offerPosition={currentOfferPosition} />
+                     <AddExpense toggleEModal={toggleEModal} expenseModal={expenseModal} offerPosition={currentOfferPosition} />
                      {
-                        currentOfferPosition.expenses.length > 0?
+                        currentOfferPosition.expenses?
                            <ExpenseItem expenses={currentOfferPosition.expenses} openDeleteWindow={openDeleteWindow} />:
                            <Alert color="warning">
                               Empty <strong>Expenses for {currentOfferPosition.offerName}</strong>, add one now!
                            </Alert>
-                     } */}
+                     }
                      
                   </Col> 
-               </Row>
+               </Row> */}
             </Container>
 
             <DeleteModal deleteWindowIsOpen={deleteWindowIsOpen} toggleDeleteWindow={toggleDeleteWindow} data={selectedObjectModel} model={selectedModel} />

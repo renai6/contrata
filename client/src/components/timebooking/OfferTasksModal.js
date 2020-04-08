@@ -21,7 +21,7 @@ import { TaskContext } from '../../contexts/TaskContext'
 import { ContractContext } from '../../contexts/ContractContext'
 
 const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, currentBook, localDispatch, indexes, currentContract}) => {
-   console.log(currentOffer, currentBook)
+
    const [ addMode, setMode ] = useState(false)
    const [ addModeOn, setAddModeOn ] = useState(false) 
    const [ selectedTotalHours, setSelectedTotalHours ] = useState(0) 
@@ -120,7 +120,6 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
 
 
    const saveBookChanges = async () => {
-        console.log(selectedTasks)
       
       const _data = selectedTasks.map(task =>  ({
          bookId: currentBook.id,
@@ -204,8 +203,6 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
                openAmount
             }
             
-            console.log(_offerData)
-
             contractDispatch({
 
                type:'UPDATE_OFFER_POSITION', 
@@ -272,7 +269,6 @@ const OfferTasksModal = ({offerTasksModal, setOfferTasksModal, currentOffer, cur
             value: parseFloat(_data.value)
          }
 
-         console.log(_payLoad)
          contractDispatch({ type:'UPDATE_BOOK', payload: _payLoad})
 
       } catch(e) {

@@ -77,12 +77,17 @@ const TimeBooking = () => {
       (async () => {
           
          const resWithContracts = await axios.get('/api/clientwithcontract')
+         
+         dispatch({type: 'SET_CURRENTS', current: 'subContractList',payload: []})
+         dispatch({type:'SET_SELECTED_CLIENT', payload: 0})
+         dispatch({type: 'SET_CURRENTS', current: 'contracts',payload: []})
+         dispatch({type: 'SET_CURRENTS', current: 'offerList',payload: []})
          clientDispatch({type: 'SET_WITHCONTRACTS', payload: resWithContracts.data})
       })()
 
       document.title = "Time Booker"
 
-   }, [clientDispatch])
+   }, [clientDispatch, dispatch])
 
    // refs
    const offerSelect = useRef(null); 
@@ -102,7 +107,7 @@ const TimeBooking = () => {
       indexes
    } = state
 
-   const handleChange = (model, e) => {
+   const handleChange = async (model, value) => {
       
 
       localDispatch({type: 'CLEAR_OFFER'})
@@ -110,17 +115,17 @@ const TimeBooking = () => {
       switch (model) {
          case 'client':
 
-            dispatch({type:'SET_SELECTED_CLIENT', payload: parseInt(e.currentTarget.value)})
+            dispatch({type:'SET_SELECTED_CLIENT', payload: parseInt(value)})
             break;
       
          case 'contract':
             
-            const index = contracts.findIndex(_ =>  parseInt(e.currentTarget.value) === _.id)
+            const index = contracts.findIndex(_ =>  parseInt(value) === _.id)
 
             localDispatch({type:'SET_LOCAL_SELECT_CONTRACT', payload:contracts[index]})
             localDispatch({type:'SET_INDEXES', payload: { model:'contract', value: index } })
 
-            dispatch({type:'CONTRACT_SELECT', payload: parseInt(e.currentTarget.value)})
+            dispatch({type:'CONTRACT_SELECT', payload: parseInt(value)})
 
             taskDispatch({type: 'FILTER'})
             break;
@@ -128,11 +133,19 @@ const TimeBooking = () => {
          case 'subcontract':
                
                
-            const subIndex = currentContract.subContracts.findIndex(_ =>  parseInt(e.currentTarget.value) === _.id)
-            console.log(currentContract.subContracts)
+            const subIndex = currentContract.subContracts.findIndex(_ =>  parseInt(value) === _.id)
 
-            dispatch({type:'SUBCONTRACT_SELECT', payload: parseInt(e.currentTarget.value)}) 
-         
+            const project = await axios.get(`/api/projects/${currentContract.subContracts[subIndex].projectNr}`)
+            
+
+            dispatch({type:'SUBCONTRACT_SELECT', payload: parseInt(value)}) 
+
+            if(project.data.length > 0) {
+
+               currentContract.subContracts[subIndex].projectId = project.data[0].id
+            } else {
+               currentContract.subContracts[subIndex].projectId = 0
+            }
 
             localDispatch({type:'SET_LOCAL_SELECT_SUBCONTRACT', payload: currentContract.subContracts[subIndex]})
             localDispatch({type:'SET_INDEXES', payload: { model:'subcontract', value: subIndex } })
@@ -142,7 +155,7 @@ const TimeBooking = () => {
             break;
       
          default:
-            console.log(e.currentTarget.value)
+            console.log(value)
             console.log(model)
             break;
       }
@@ -208,11 +221,11 @@ const TimeBooking = () => {
                
             </Col>
 
-            <Col sm={12} xs={12} lg={3} md={3} xl={3}>
+            <Col sm={12} xs={12} lg={4} md={4} xl={4}>
 
             
-               <Selections label="Contracts" onChange={  (e) => handleChange('contract', e) }>
-                  <option value={0} >Select Data</option>
+               <Selections label="Contracts" onChange={  (e) => handleChange('contract', e.currentTarget.value) }>
+                  <option value={0} >Select contract</option>
                   {
                      contracts.map(contract => (
                         <option key={ contract.id } value={contract.id}>{ contract.name }</option>
@@ -221,11 +234,11 @@ const TimeBooking = () => {
                </Selections>
             </Col>
 
-            <Col sm={12} xs={12} lg={3} md={3} xl={3}>
+            <Col sm={12} xs={12} lg={4} md={4} xl={4}>
 
            
-               <Selections label="Sub-Contracts" onChange={ (e) => handleChange('subcontract', e) }>
-                  <option value={0}>Select Data</option>
+               <Selections label="Sub-Contracts" onChange={ (e) => handleChange('subcontract', e.currentTarget.value) }>
+                  <option value={0}>Select Sub-Contract</option>
                   {
                      subContractList.map(contract => (
                         <option key={ contract.id } value={contract.id}>{ contract.name }</option>
@@ -252,7 +265,7 @@ const TimeBooking = () => {
                               <FormGroup className="mb-0 ml-2 flex-fill d-flex align-items-center">
                                  <h6 className="mb-0 mr-2 d-flex align-items-center" >Offer <span title="Select an offer" className="offer-title ml-2" ref={offerSelect}><i className="fas fa-caret-right fa-lg"></i></span></h6> 
                                  <CustomInput onChange={ (e) => setCurrentOffer(parseInt(e.currentTarget.value)) } className="shadow-sm ml-2" bsSize="sm" type="select" id="contractName" name="contractName">
-                                 <option value={0}>Select Data</option>
+                                 <option value={0}>Select Offer</option>
                                  {
                                     
                                     offerList.map(offer => (

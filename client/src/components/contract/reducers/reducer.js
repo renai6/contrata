@@ -152,7 +152,7 @@ const ContractReducer = (state, action) => {
             offerPositionIsOpen: true,
             expenseIsOpen: true,
             currentOfferPosition: action.payload,
-            width: 4
+            width: 3
          }
 
       default:

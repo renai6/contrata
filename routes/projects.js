@@ -8,21 +8,16 @@ const db = require('../config/sqlSrvDatabse')
 const Project = require('../models/Project')
 
 
-router.get('/', async (req, res) => {
+router.get('/:nr', auth, async (req, res) => {
 
    try {
 
       
       const project = await Project.findAll({
          where: {
-            id: 125,
+            proj_nr: req.params.nr,
 
          },
-         include: [{
-            model: TaskDateTime,
-            as: 'time',
-            required: true
-         }]
       })
 
       res.send( project )
